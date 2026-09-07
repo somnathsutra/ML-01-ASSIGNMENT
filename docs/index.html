@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A public research paper on ranking signal analysis using pseudonymized FlyRank search data.">
+  <title>What Should an Editor Review First?</title>
+  <style>
+    :root {
+      --ink: #17252b;
+      --muted: #5d6c70;
+      --paper: #f5f1e9;
+      --panel: #fffdf8;
+      --line: #d9d4c8;
+      --teal: #126b6b;
+      --coral: #c85d4a;
+      --gold: #d59d37;
+      --shadow: 0 18px 45px rgba(23, 37, 43, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Georgia, 'Times New Roman', serif;
+      line-height: 1.65;
+    }
+    a { color: var(--teal); }
+    .topline { height: 8px; background: var(--coral); }
+    header {
+      padding: 1.25rem 6vw;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 253, 248, .78);
+    }
+    .nav { display: flex; justify-content: space-between; gap: 1rem; align-items: center; max-width: 1180px; margin: auto; }
+    .brand { font: 700 .82rem/1.2 Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--teal); }
+    nav { display: flex; gap: 1.1rem; flex-wrap: wrap; font: .78rem Arial, sans-serif; }
+    nav a { text-decoration: none; color: var(--muted); }
+    main { max-width: 1180px; margin: auto; padding: 0 6vw 5rem; }
+    .hero { padding: 6rem 0 4rem; display: grid; grid-template-columns: 1.35fr .65fr; gap: 4rem; align-items: end; }
+    .eyebrow { margin: 0 0 1rem; color: var(--coral); font: 700 .78rem Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3 { line-height: 1.08; margin: 0; font-weight: 700; }
+    h1 { max-width: 800px; font-size: clamp(2.8rem, 7vw, 6.6rem); letter-spacing: -.04em; }
+    h2 { font-size: clamp(2rem, 4vw, 3.4rem); margin-bottom: 1rem; }
+    h3 { font-size: 1.2rem; }
+    .dek { max-width: 670px; margin: 1.5rem 0 0; font-size: 1.22rem; color: var(--muted); }
+    .hero-note { border-left: 4px solid var(--teal); padding: 1rem 0 1rem 1.4rem; color: var(--muted); }
+    .hero-note strong { display: block; color: var(--ink); font-size: 2.4rem; line-height: 1; }
+    section { padding: 5rem 0; border-top: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: .35fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+    .section-number { color: var(--coral); font: 700 .9rem Arial, sans-serif; letter-spacing: .1em; }
+    .prose { max-width: 760px; font-size: 1.06rem; }
+    .prose p { margin: 0 0 1rem; }
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .metric { background: var(--panel); padding: 1.4rem; }
+    .metric b { display: block; font-size: 2.3rem; line-height: 1; color: var(--teal); }
+    .metric span { display: block; margin-top: .6rem; color: var(--muted); font: .78rem Arial, sans-serif; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .card { background: var(--panel); border: 1px solid var(--line); padding: 1.5rem; box-shadow: var(--shadow); }
+    .card h3 { margin-bottom: .7rem; }
+    .card p { color: var(--muted); margin: 0; }
+    .chart { margin-top: 1.5rem; background: var(--panel); border: 1px solid var(--line); padding: 1.5rem; }
+    .chart-title { margin-bottom: 1.5rem; font: 700 .8rem Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .bar-row { display: grid; grid-template-columns: 150px 1fr 52px; gap: .8rem; align-items: center; margin: .8rem 0; font: .82rem Arial, sans-serif; }
+    .bar-track { height: 15px; background: #e7e2d8; }
+    .bar { height: 100%; background: var(--teal); }
+    .bar.model { background: var(--coral); }
+    .bar-label { color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; background: var(--panel); }
+    th, td { text-align: left; padding: .85rem 1rem; border-bottom: 1px solid var(--line); }
+    th { font: 700 .76rem Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    td { font-size: .98rem; }
+    .callout { margin-top: 1.5rem; border-left: 4px solid var(--gold); padding: 1rem 1.3rem; background: #fff8e9; }
+    ol { padding-left: 1.4rem; }
+    li { padding: .55rem 0; }
+    code { padding: .1rem .3rem; background: #e8e4da; font: .88em Consolas, monospace; }
+    footer { padding: 2rem 6vw; background: var(--ink); color: #dfe8e7; }
+    footer .footer-inner { max-width: 1180px; margin: auto; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font: .8rem Arial, sans-serif; }
+    footer a { color: #9ed4cf; }
+    @media (max-width: 760px) {
+      .hero, .section-head, .grid-2 { grid-template-columns: 1fr; gap: 1.5rem; }
+      .hero { padding-top: 4rem; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .bar-row { grid-template-columns: 105px 1fr 45px; gap: .5rem; font-size: .72rem; }
+      th, td { padding: .7rem .5rem; font-size: .83rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline"></div>
+  <header>
+    <div class="nav">
+      <div class="brand">Ranking Signal Analysis · 2026</div>
+      <nav aria-label="Sections">
+        <a href="#data">Data</a><a href="#method">Method</a><a href="#results">Results</a><a href="#recommendations">Recommendations</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero" style="border-top: 0;">
+      <div>
+        <p class="eyebrow">A FlyRank ML Internship Research Paper</p>
+        <h1>What should an editor review first?</h1>
+        <p class="dek">A ranking signal analysis of five observable search signals, a transparent review rule, and a client-held-out Random Forest.</p>
+      </div>
+      <div class="hero-note"><strong>2×</strong>precision at the top 50 compared with the transparent baseline on held-out clients.</div>
+    </section>
+
+    <section id="problem">
+      <div class="section-head"><div class="section-number">01 / PROBLEM</div><h2>The decision is the product.</h2></div>
+      <div class="prose">
+        <p>Editors have limited time. The practical question is not “what does the search algorithm want?” It is which content items deserve a closer look when visibility, clicks, CTR, position, and activity move together.</p>
+        <p>This paper turns that question into a ranked review queue. The queue is a decision-support instrument: a person checks query mix, snippet fit, and measurement quality before making any content change.</p>
+      </div>
+    </section>
+
+    <section id="data">
+      <div class="section-head"><div class="section-number">02 / DATA</div><h2>A mid-panel slice with a hard boundary.</h2></div>
+      <div class="metrics">
+        <div class="metric"><b>9.84M</b><span>daily March rows</span></div>
+        <div class="metric"><b>331K</b><span>content items</span></div>
+        <div class="metric"><b>44</b><span>client groups</span></div>
+        <div class="metric"><b>0</b><span>duplicate daily grains</span></div>
+      </div>
+      <div class="prose" style="margin-top: 1.6rem;">
+        <p>The source is FlyRank’s pseudonymized <code>fact_content_daily_performance</code> table, restricted to <code>month=2026-03</code>. Features use March 1–15. The observed movement proxy uses March 16–31, and incomplete second-half histories are excluded from model evaluation.</p>
+        <p>The five features are first-half impressions, clicks, CTR, average position, and active impression days. Client and content hashes are grouping context only. Future-window values, trend fields, product decisions, raw queries, URLs, client names, and credentials are excluded.</p>
+      </div>
+    </section>
+
+    <section id="method">
+      <div class="section-head"><div class="section-number">03 / METHOD</div><h2>Simple enough to audit.</h2></div>
+      <div class="grid-2">
+        <div class="card"><h3>Target proxy</h3><p>A content item is marked as declining when second-half impressions per day are below 80% of first-half impressions per day. This is an observed movement proxy, not a causal label.</p></div>
+        <div class="card"><h3>Validation</h3><p><code>GroupShuffleSplit</code> holds out 11 clients. The model and baseline rank the same test rows. The seed is 42.</p></div>
+        <div class="card"><h3>Baseline</h3><p>Volume points are combined with a position-aware low-CTR screen. Each queue item gets one reason code and one action label.</p></div>
+        <div class="card"><h3>Leakage check</h3><p>An exact label copy scored 1.000. Removing it produced the honest grouped score of 0.604, proving the attack can expose contamination.</p></div>
+      </div>
+    </section>
+
+    <section id="results">
+      <div class="section-head"><div class="section-number">04 / RESULTS</div><h2>The learned ranker earns its place at the top.</h2></div>
+      <div class="chart" aria-label="Precision at 50 comparison">
+        <div class="chart-title">Precision@50 · held-out clients · higher is better</div>
+        <div class="bar-row"><span class="bar-label">ML-07 rule</span><div class="bar-track"><div class="bar" style="width:44%;"></div></div><strong>0.22</strong></div>
+        <div class="bar-row"><span class="bar-label">Random Forest</span><div class="bar-track"><div class="bar model" style="width:88%;"></div></div><strong>0.44</strong></div>
+      </div>
+      <div class="chart" aria-label="Precision at 100 comparison">
+        <div class="chart-title">Precision@100 · held-out clients · higher is better</div>
+        <div class="bar-row"><span class="bar-label">ML-07 rule</span><div class="bar-track"><div class="bar" style="width:56%;"></div></div><strong>0.28</strong></div>
+        <div class="bar-row"><span class="bar-label">Random Forest</span><div class="bar-track"><div class="bar model" style="width:86%;"></div></div><strong>0.43</strong></div>
+      </div>
+      <div class="metrics" style="margin-top: 1.5rem;">
+        <div class="metric"><b>0.393</b><span>held-out base rate</span></div>
+        <div class="metric"><b>0.573</b><span>ROC AUC</span></div>
+        <div class="metric"><b>5,205</b><span>false negatives</span></div>
+        <div class="metric"><b>748</b><span>false positives</span></div>
+      </div>
+      <div class="callout"><strong>Interpretation:</strong> the model improves the top of the queue, but it is not a complete detector. Average position, impressions, active days, and CTR were the strongest feature-importance signals; those are diagnostic clues, not causal explanations.</div>
+    </section>
+
+    <section id="limitations">
+      <div class="section-head"><div class="section-number">05 / LIMITS</div><h2>What this cannot prove.</h2></div>
+      <div class="prose">
+        <p>This is one March mid-panel slice from an unbalanced client panel. The result measures out-of-sample ranking performance for this proxy and this period. It does not prove that changing a title, snippet, or page will improve rankings, and it does not model or predict Google’s algorithm.</p>
+        <p>False negatives outnumber false positives, so human review remains necessary. Future-month stability, richer query-mix signals, and a broader time-aware evaluation are the next tests.</p>
+      </div>
+    </section>
+
+    <section id="recommendations">
+      <div class="section-head"><div class="section-number">06 / ACTIONS</div><h2>A queue for tomorrow morning.</h2></div>
+      <ol>
+        <li><strong>Review high-volume, low-CTR pages first.</strong> Check query mix and title/snippet alignment before editing.</li>
+        <li><strong>Use volume as an opportunity filter.</strong> High impressions show measurable opportunity, not poor content by themselves.</li>
+        <li><strong>Investigate zero-click anomalies.</strong> They may indicate query intent, measurement, or snippet issues.</li>
+        <li><strong>Use the Random Forest as a second ranking aid.</strong> It improves held-out precision, but its errors require a human decision.</li>
+      </ol>
+      <div class="callout">Confidence is directional and moderate for queue prioritization, low for future improvement, and zero for causal claims.</div>
+    </section>
+
+    <section id="reproducibility">
+      <div class="section-head"><div class="section-number">07 / REPRODUCE</div><h2>Everything needed to retrace it.</h2></div>
+      <div class="prose">
+        <p>Install the environment with <code>pip install -r requirements.txt</code>. Request read access to the FlyRank warehouse, provide the token through the notebooks’ hidden prompt, and run the notebooks in order from ML-02 through ML-08.</p>
+        <p>The source notebooks, executed outputs, model metrics receipt, and full report are available in the <a href="https://github.com/somnathsutra/ML-01-ASSIGNMENT">repository</a>. ML-07 regenerates the queue; ML-08 writes <code>work/outputs/model_metrics.json</code>.</p>
+      </div>
+    </section>
+
+    <section id="credit">
+      <div class="section-head"><div class="section-number">08 / CREDIT</div><h2>Built on real search data.</h2></div>
+      <div class="prose"><p>Built on the <a href="https://flyrank.ai">FlyRank ML Internship dataset</a>, using its pseudonymized warehouse release and public-safety rules. This paper was authored for the Ranking Signal Analysis lane by Somnath.</p></div>
+    </section>
+  </main>
+  <footer><div class="footer-inner"><span>Ranking Signal Analysis · Observed, measured, directional.</span><a href="https://github.com/somnathsutra/ML-01-ASSIGNMENT">View the repository</a></div></footer>
+</body>
+</html>
